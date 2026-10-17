@@ -1,13 +1,9 @@
 
 #-------------------------EFEITOS CLIMA--------------------------------------
-image chuva = Movie(play="images/chuva.webm",size=(1920,1080) ,loop=True)
+image chuva = Movie(play="tudo/imagem/chuva.webm",size=(1920,1080) ,loop=True)
 init python:
-    config.layers = ["master","clima","fundo","personagens","transient","screens","overlay"]
+    config.layers = ["master","fundo","clima","personagens","transient","screens","overlay"]
 #-------------------------NOMES PERSONAGEM--------------------------------------
-
-
-
-
 define eu = Character("Kyo")
 define minazinha = Character("Laharl")
 define outramina = Character("Psico")
@@ -20,40 +16,52 @@ image bgrua = "bg_ruas.jpg"
 image bgred = "bg_red.jpg"
 image fundo_preto = Solid("#000000")
 
-image minazinha_f1 = "minazinha1-1.png"
-image outramina_f1 = "outraminazinha1-1.png"
-image parabens = "parabens.png"
-image sentado = "kyocentado.png"
-image kyo_serio= "kyo_dialogo_serio.png"
-image kyo_side_serio= "kyo_side_serio.png"
+image minazinha_f1 = "tudo/imagem/minazinha1-1.png"
+image outramina_f1 = "tudo/imagem/outraminazinha1-1.png"
 
-image city_f1 = "images/fundos/cidade_f1.png"
 
-image static_dante_f1 = "images/dante/static_dante_f1.png"
+image city_f1 = "tudo/imagem/fundo/cidade_f1.png"
 
-image _fundo_roxo = "fundo_roxo.png"
+image static_dante_f1 = "tudo/imagem/dante/static_dante_f1.png"
+
 
 default foiprocafe = False
 default qntsCafe = 3
 default sucesso = 0
 
 
-
+default persistent.unlocked_routes = [ "red", "yellow", "silver", "gold"]
 label start:
-    play music "musics/prepare_your_swords.mp3"
-    show screen hud
-    scene fundo_preto
-    centered "Em uma galáxia distante..2222222\nssdsd\nnnn."
+
+    call screen choose_route_screen
+    $ selected_route = _return
+    if selected_route == "Jinguji Sakura":
+        $ persistent.unlocked_routes.append("blue")
+        with dissolve
+        jump jinguji_historia
+
+    elif selected_route == "red":
+        jump capitulo221
+
+    elif selected_route == "yellow":
+        jump capitulo221
+
+    elif selected_route == "silver":
+        jump start
+
+    elif selected_route == "gold":
+        jump capitulo221
+
     $ renpy.notify("Você encontrou uma chave!")
 
-    $ showsideimage("kyo_side_serio")
+
     eu "oi"
     $ renpy.notify("Você encontrou Corajoso!")
-    $ perks.append(("Corajoso","Você consegue agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
-    $ perks.append(("Medas","Você consegue agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
-    $ perks.append(("fasff","Você ssssssssss agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
-    $ perks.append(("xczc","Vo abrir novos caminhos."))
-    $ perks.append(("asff","Você consegue agir mesmo diações difíceis, sua coragem pode abrir novos caminhos."))
+    $ traco.append(("Corajoso","Você consegue agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
+    $ traco.append(("Medas","Você consegue agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
+    $ traco.append(("fasff","Você ssssssssss agir mesmo diante do medo. Em situações difíceis, sua coragem pode abrir novos caminhos."))
+    $ traco.append(("xczc","Vo abrir novos caminhos."))
+    $ traco.append(("asff","Você consegue agir mesmo diações difíceis, sua coragem pode abrir novos caminhos."))
     $ mochila.append(("Chave da Sala 3","Uma chave que abre a sala do professor Yuki."))
     $ mochila.append(("Chave da Sala 3","Uma chave que abre a sala do professor Yuki."))
     $ mochila.append(("Chave da Sala 3","Uma chave que abre a sala do professor Yuki."))
@@ -67,14 +75,17 @@ label start:
 
     "Você já não se sente tão corajoso."
 
-    stop music fadeout 1
+
     $ iniciar_chuva(hard=True)
     show city_f1 onlayer fundo with dissolve
-    #show sentado onlayer fundo with dissolve
-    show kyo_serio onlayer personagens at right with dissolve
-    show static_dante_f1 onlayer personagens at left with dissolve
+    show static_dante_f1 onlayer personagens at Transform(xpos=50, yalign=1.0) with dissolve
+    show minazinha_f1 onlayer personagens at left with dissolve
+    show static_dante_f1 onlayer personagens at Transform(xpos=180, yalign=1.0) with dissolve
+    show static_dante_f1 onlayer personagens at Transform(xpos=500, yalign=1.0, xzoom=-1) with dissolve
 
-    show minazinha_f1 onlayer personagens
+    show static_dante_f1 onlayer personagens at Transform(xpos=500, yalign=1.0, xzoom=-1, matrixcolor=BrightnessMatrix(-0.1)) with dissolve
+    show static_dante_f1 onlayer personagens at Transform(xpos=500, yalign=1.0, xzoom=-1, matrixcolor=BrightnessMatrix(0.0)) with dissolve
+    minazinha "seu bumbum durinho"
     #hide sentado onlayer fundo
     #show _fundo_roxo onlayer fundo with dissolve
     hide sideimage onlayer screens
@@ -191,3 +202,10 @@ label cafe:
         "eu nao fui"
 
 return
+
+####   BOTAR MUSICA | PARA MUSICA  ####### play music "tudo/audio/prepare_your_swords.mp3"               |    stop music fadeout 1
+####   TEXTO  CENTRADO #####                  centered "Em uma galáxia distante..2222222\nssdsd\nnnn."
+###    NOTIFICAÇÃO  ####                   $ renpy.notify("Você encontrou uma chave!")
+###   MOSTRAR O FUNDO    ####             show city_f1 onlayer fundo with dissolve                       |    hide city_f1 onlayer fundo
+###   MOSTRAR PERSONAGEM  ###             show kyo_serio onlayer personagens at right with dissolve      |    hide kyo_serio onlayer personagens
+###   DESBLOQUEAR  PERSONAGEM ###         $ persistent.unlocked_routes.append("prota2")

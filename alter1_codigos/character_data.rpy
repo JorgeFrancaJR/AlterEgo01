@@ -9,12 +9,12 @@ default personagem_atual = 0
 
 default personagens = [
     {
-        "titulo": "ESTUDANTE",
-        "nome": "Jinguji Sakura",
-        "idade": "17",
-        "traco": "Perfeccionista",
-        "medo": "Solidão",
-        "foto": "images/jinguji_s/jingujisakura_glos_f1.png"
+        "titulo": "???",
+        "nome": "???",
+        "idade": "??",
+        "traco": "???",
+        "medo": "???",
+        "foto": "tudo/imagem/jinguji_s/jingujisakura_glos_f1.png"
     },
 
     {
@@ -23,7 +23,7 @@ default personagens = [
         "idade": "18",
         "traco": "Calma",
         "medo": "Abandono",
-        "foto": "images/dante/dante_gloss_f1.jpg"
+        "foto": "tudo/imagem/dante/dante_gloss_f1.jpg"
     },
 
     {
@@ -32,7 +32,7 @@ default personagens = [
         "idade": "19",
         "traco": "Impulsivo",
         "medo": "Fracasso",
-        "foto": "akirafoto.jpg"
+        "foto": "tudo/imagem/akirafoto.jpg"
     }
 ]
 
@@ -43,12 +43,12 @@ default personagens = [
 
 default estado_personagens = [
     {
-        "titulo": "ESTUDANTE",
-        "nome": "Jinguji Sakura",
-        "idade": "17",
-        "traco": "Perfeccionista",
-        "medo": "Solidão",
-        "foto": "images/jinguji_s/jingujisakura_glos_f1.png"
+        "titulo": "???",
+        "nome": "???",
+        "idade": "???",
+        "traco": "???",
+        "medo": "???",
+        "foto": "tudo/imagem/jinguji_s/jingujisakura_glos_f1.png"
     },
 
     {
@@ -57,7 +57,7 @@ default estado_personagens = [
         "idade": "18",
         "traco": "Calma",
         "medo": "Abandono",
-        "foto": "images/dante/dante_gloss_f1.jpg"
+        "foto": "tudo/imagem/dante/dante_gloss_f1.jpg"
     },
 
     {
