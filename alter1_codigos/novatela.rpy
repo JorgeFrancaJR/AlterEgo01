@@ -1,6 +1,7 @@
 # ========================     ESTADO MENTAL   ====================================
 default pontos_mentais = 100
 default estado_mental = "Neutro"
+#novos texstssss
 init python:
     # Atualiza o estado mental conforme a pontuação atual
     def atualizar_estado_mental():
