@@ -203,6 +203,8 @@ label cafe:
 
 return
 
+####    DEFINIR PONTOS MENTAIS   FIXO         $ definir_pontos_mentais(50)
+####    ALTERAR PONTOS MENTAIS                $ alterar_pontos_mentais(30)    |   $ alterar_pontos_mentais(-30)
 ####   BOTAR MUSICA | PARA MUSICA  ####### play music "tudo/audio/prepare_your_swords.mp3"               |    stop music fadeout 1
 ####   TEXTO  CENTRADO #####                  centered "Em uma galáxia distante..2222222\nssdsd\nnnn."
 ###    NOTIFICAÇÃO  ####                   $ renpy.notify("Você encontrou uma chave!")

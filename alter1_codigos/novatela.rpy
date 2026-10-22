@@ -1,209 +1,50 @@
-# ========================     HUD GLOSSARIO   ====================================
-screen hud:
-    imagebutton:
-        idle "tudo/imagem/fundo/icone_barra_idle.png"
-        hover "tudo/imagem/fundo/icone_barra_hover.png"
-        focus_mask True
-        action Show("glossario", transition=dissolve)
-    imagebutton:
-        idle "tudo/imagem/fundo/icone_livro_idle.png"
-        hover "tudo/imagem/fundo/icone_livro_hover.png"
-        focus_mask True
-        action Show("inventario", transition=dissolve)
-# ========================     SELEÇÃO DE PERSONAGENS   ====================================
-#    TELA DE SELECAO
-default persistent.unlocked_routes = ["Jinguji Sakura"]
-# Tamanho dos retratos na tela
-default persistent.unlocked_routes = ["Jinguji Sakura"]
+# ========================     ESTADO MENTAL   ====================================
+default pontos_mentais = 100
+default estado_mental = "Neutro"
+init python:
+    # Atualiza o estado mental conforme a pontuação atual
+    def atualizar_estado_mental():
+        pontos = renpy.store.pontos_mentais
+        if pontos <= 50:
+            estado = "Inspirado"
+        elif pontos <= 150:
+            estado = "Neutro"
+        elif pontos <= 200:
+            estado = "Perturbado"
+        elif pontos <= 250:
+            estado = "Instavel"
+        else:
+            estado = "Colapsado"
+        renpy.store.estado_mental = estado
+    # Aumenta ou diminui os pontos atuais
+    def alterar_pontos_mentais(valor):
+        renpy.store.pontos_mentais = max(0,min(300, renpy.store.pontos_mentais + valor))
+        atualizar_estado_mental()
+    # Define uma quantidade EXATA de pontos
+    def definir_pontos_mentais(valor):
+        renpy.store.pontos_mentais = max(0,min(300, valor))
+        atualizar_estado_mental()
+# ======================== IMAGENS DO ESTADO MENTAL ========================
+# Imagens exibidas conforme o estado mental atual
+image estado_inspirado = "tudo/imagem/estado_mental/inspirado.png"
+image estado_neutro = "tudo/imagem/estado_mental/neutro.png"
+image estado_instavel = "tudo/imagem/estado_mental/instavel.png"
+image estado_perturbado = "tudo/imagem/estado_mental/perturbado.png"
+image estado_colapsado = "tudo/imagem/estado_mental/colapsado.png"
+# ======================== TELA DO ESTADO MENTAL ==========================
 
-screen choose_route_screen():
-    tag menu
-
-    # Fundo da tela em 1920x1080
-    add "tudo/imagem/fundo/fundo_selecao.png"
-
-    # Título
-    text "ESCOLHA SEU PROTAGONISTA":
-        xalign 0.5
-        ypos 140
-        size 38
-        color "#F5A5B8"
-        bold True
-
-    # JINGUJI SAKURA
-    imagebutton:
-        idle "tudo/imagem/fundo/jinguji_sakura_retrato_idle.png"
-        hover "tudo/imagem/fundo/jinguji_sakura_retrato_rover.png"
-        focus_mask True
-        action Return("Jinguji Sakura")
-        sensitive "Jinguji Sakura" in persistent.unlocked_routes
-    # ROTA Azul
-    imagebutton:
-        idle "tudo/imagem/fundo/blue_retrato_idle.png"
-        hover "tudo/imagem/fundo/blue_retrato_rover.png"
-        focus_mask True
-        action Return("blue")
-        sensitive "prota2" in persistent.unlocked_routes
-    # ROTA AMARELA
-    imagebutton:
-        idle "tudo/imagem/fundo/rota_amarela_idle.png"
-        hover "tudo/imagem/fundo/rota_amarela_rover.png"
-        focus_mask True
-        action Return("yellow")
-        sensitive "yellow" in persistent.unlocked_routes
-
-    # ROTA PRATA
-    imagebutton:
-        idle "tudo/imagem/fundo/rota_prata_idle.png"
-        hover "tudo/imagem/fundo/rota_prata_rover.png"
-        xpos 1150
-        ypos 250
-        focus_mask True
-        action Return("silver")
-        sensitive "silver" in persistent.unlocked_routes
-
-    # ROTA DOURADA
-    imagebutton:
-        idle "tudo/imagem/fundo/rota_dourada_idle.png"
-        hover "tudo/imagem/fundo/rota_dourada_rover.png"
-        xpos 1500
-        ypos 250
-        focus_mask True
-        action Return("gold")
-        sensitive "gold" in persistent.unlocked_routes
-
-    text "Desbloqueie novas rotas durante a história.":
-        xalign 0.5
-        ypos 900
-        size 18
-        color "#D5C4C8"
-# ========================     GLOSSARIO   ====================================
-screen glossario:
-    modal True
-    $ estado = estado_personagens[personagem_atual]
-    # ======================================================
-    # BACKGROUND
-    # ======================================================
-    add estado["foto"]:
-        xalign 1
-        yalign 1
-        fit "cover"
-    # ======================================================
-    # TÍTULO VERTICAL
-    # ======================================================
-    vbox:
-        xpos 1750
-        ypos 100
-        spacing 10
-        for letra in estado["titulo"]:
-            if letra == " ":
-                null height 15
-            else:
-                text "[letra]":
-                    font "tudo/fonte/aquifer.ttf"
-                    size 45
-                    color "#AAA5B5"
-                    xalign 0.5
-                    outlines [(1, "#000000")]
-    # ======================================================
-    # NOME
-    # ======================================================
-    text estado["nome"]:
-        xpos 1150
-        ypos 100
-        size 35
-        color "#FFFFFF"
-        text_align 0.5
-        font "tudo/fonte/aquifer.ttf"
-    text "NOME":
-        xpos 1150
-        ypos 150
-        size 15
-        bold True
-        color "#FFFFFF"
-        text_align 0.5
-    # ======================================================
-    # IDADE
-    # ======================================================
-    text estado["idade"]:
-        xpos 1150
-        ypos 200
-        size 35
-        color "#FFFFFF"
-        text_align 0.5
-        font "tudo/fonte/aquifer.ttf"
-    text "IDADE":
-        xpos 1150
-        ypos 250
-        size 15
-        bold True
-        color "#FFFFFF"
-        text_align 0.5
-    # ======================================================
-    # CARACTERÍSTICA
-    # ======================================================
-    text estado["traco"]:
-        xpos 1150
-        ypos 300
-        size 35
-        color "#FFFFFF"
-        text_align 0.5
-        font "tudo/fonte/aquifer.ttf"
-    text "TRAÇOS":
-        xpos 1150
-        ypos 350
-        size 15
-        bold True
-        color "#FFFFFF"
-        text_align 0.5
-    # ======================================================
-    # MEDO
-    # ======================================================
-    text estado["medo"]:
-        xpos 1150
-        ypos 400
-        size 35
-        color "#FFFFFF"
-        text_align 0.5
-        font "tudo/fonte/aquifer.ttf"
-    text "MEDO":
-        xpos 1150
-        ypos 450
-        size 15
-        bold True
-        color "#FFFFFF"
-        text_align 0.5
-    # ======================================================
-    # SETA ESQUERDA
-    # ======================================================
-    textbutton "❮":
-        xpos 1650
-        ypos 900
-        text_size 80
-        text_color "#FFFFFF"
-        text_hover_color "#AAA5B5"
-        text_outlines [(2, "#000000")]
-        action [SetVariable("personagem_atual", (personagem_atual - 1) % len(personagens)),With(Dissolve(0.5))]
-    # ======================================================
-    # SETA DIREITA
-    # ======================================================
-    textbutton "❯":
-        xpos 1750
-        ypos 900
-        text_size 80
-        text_color "#FFFFFF"
-        text_hover_color "#AAA5B5"
-        text_outlines [(2, "#000000")]
-        action [SetVariable("personagem_atual", (personagem_atual + 1) % len(personagens)),With(Dissolve(0.5))]
-    # ======================================================
-    # FECHAR
-    # ======================================================
-    imagebutton:
-        idle "tudo/imagem/fundo/icone_barra_idle.png"
-        hover "tudo/imagem/fundo/icone_barra_hover.png"
-        focus_mask True
-        action Hide("glossario", transition=dissolve)
-
+screen mostrar_estado_mental():
+    zorder 100
+    if estado_mental == "Inspirado":
+        add "estado_inspirado"
+    elif estado_mental == "Neutro":
+        add "estado_neutro"
+    elif estado_mental == "Perturbado":
+        add "estado_perturbado"
+    elif estado_mental == "Instavel":
+        add "estado_instavel"
+    elif estado_mental == "Colapsado":
+        add "estado_colapsado"
 # ========================     INVENTARIO   ====================================
 default mochila = []
 default traco = []
@@ -364,9 +205,9 @@ init python:
     def tem_item(nome):
         return any(item[0] == nome for item in store.mochila)
 
-# ======================== DADO ROLANDO ========================
 # ============================================================
-# SISTEMA DE DADO D20 ANIMADO
+# SISTEMA DE DADOS ANIMADOS - D20 E D100
+# COM ACERTO CRÍTICO E ERRO CRÍTICO
 # ============================================================
 
 default dado_valor = 1
@@ -399,7 +240,7 @@ init python:
 
 
 # ============================================================
-# TELA DE ROLAGEM
+# TELA DE ROLAGEM ANIMADA
 # ============================================================
 
 screen animacao_dado(lados=20, duracao=1.5):
@@ -407,10 +248,10 @@ screen animacao_dado(lados=20, duracao=1.5):
     modal True
     zorder 300
 
-    # Fundo escurecido.
+    # Fundo escurecido
     add Solid("#000000CC")
 
-    # Fundo principal do dado.
+    # Fundo principal
     frame:
         xalign 0.5
         yalign 0.5
@@ -424,61 +265,90 @@ screen animacao_dado(lados=20, duracao=1.5):
             xalign 0.5
             yalign 0.5
             spacing 25
+
             text "[dado_valor]":
                 size 100
                 color "#FFFFFF"
                 xalign 0.5
                 outlines [(3, "#d9b66c")]
-    # --------------------------------------------------------
-    # ANIMAÇÃO DO DADO
-    # --------------------------------------------------------
 
+    # Animação do dado
     if dado_rolando:
 
-        # Troca o número durante a rolagem.
         timer 0.10 repeat True action Function(
             atualizar_dado, lados
         )
 
-        # Finaliza a rolagem após a duração configurada.
         timer duracao action Function(
             finalizar_dado, lados
         )
 
     else:
 
-        # Fecha a tela automaticamente após mostrar o resultado.
         timer 1.5 action Return(dado_valor)
 
 
 # ============================================================
-# FUNÇÃO QUE INICIA A ROLAGEM
+# FUNÇÃO QUE INICIA A ROLAGEM ANIMADA
 # ============================================================
 
 init python:
 
-    def rolar_dado_animado(lados=20, duracao=2):
+    def rolar_dado_animado(lados=100, duracao=2):
 
-        # Prepara uma nova rolagem.
+        # Impede valores inválidos
+        if lados < 2:
+            lados = 2
+
+        # Prepara a rolagem
         store.dado_rolando = True
         store.dado_valor = renpy.random.randint(1, lados)
 
-        # Abre a tela e aguarda o resultado.
+        # Abre a animação e aguarda o resultado
         resultado = renpy.call_screen(
             "animacao_dado",
             lados=lados,
             duracao=duracao
         )
 
-        # Retorna o resultado final para a história.
+        # Retorna o resultado final
         return resultado
-    def dificuldade_teste(dificuldade):
-        resultado = rolar_dado_animado(20)
-        return resultado >= dificuldade
 
+# ============================================================
+# SISTEMA DE ACERTO CRÍTICO E ERRO CRÍTICO
+# ============================================================
 
+init python:
 
+    def dificuldade_teste(dificuldade, lados=100, duracao=2):
+        """
+        Realiza uma rolagem com resultados especiais.
 
+        1   = Erro crítico
+        100 = Acerto crítico, somente no D100
+        Sucesso = Resultado igual ou superior à dificuldade
+        Falha = Resultado inferior à dificuldade
+        """
+
+        resultado = rolar_dado_animado(
+            lados=lados,
+            duracao=duracao
+        )
+
+        # ERRO CRÍTICO
+        if resultado == 1:
+            return "erro_critico"
+
+        # ACERTO CRÍTICO
+        if lados == 100 and resultado == 100:
+            return "acerto_critico"
+
+        # SUCESSO NORMAL
+        if resultado >= dificuldade:
+            return "sucesso"
+
+        # FALHA NORMAL
+        return "falha"
 # ========================     CLIMA   ====================================
 init python:
     def iniciar_chuva(hard=True):
